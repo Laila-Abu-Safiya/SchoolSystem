@@ -6,11 +6,10 @@ import com.example.school.entity.Teacher;
 import com.example.school.repository.StudentRepository;
 import com.example.school.repository.SubjectRepository;
 import com.example.school.repository.TeacherRepository;
-import jakarta.servlet.http.PushBuilder;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.security.PublicKey;
 import java.util.Optional;
 import java.util.Set;
 
@@ -51,5 +50,17 @@ public class TeacherService {
     }
     public Teacher addNewTeacher(Teacher teacher){
         return teacherRepository.save(teacher);
+    }
+    @Transactional
+    public Optional<Student> editStudentIno(int teacherId, int studentId, String studentName) {
+        Optional<Student> student = studentRepository.findById(studentId);
+        Set<Student> teacherStudents = teacherRepository.findById(teacherId).get().getSubject().getStudentSet();
+        for (Student std : teacherStudents) {
+            if (std == student.get()) {
+                student.get().setStudentName(studentName);
+                return student;
+            }
+        }
+        return student;
     }
 }

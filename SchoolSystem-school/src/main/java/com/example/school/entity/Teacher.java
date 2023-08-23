@@ -26,7 +26,7 @@ public class Teacher {
     @JoinColumn(name = "subject_id", referencedColumnName = "SUBJECT_ID")
     private Subject subject;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     @JoinColumn(name="president_id")
     private President president;

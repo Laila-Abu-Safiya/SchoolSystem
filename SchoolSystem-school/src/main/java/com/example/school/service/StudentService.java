@@ -22,4 +22,8 @@ public class StudentService {
         return student.get().getLikedSubject();
     }
 
+    public Student addNewStudent(Student student){
+        return studentRepository.save(student);
+    }
+
 }

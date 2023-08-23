@@ -2,6 +2,7 @@ package com.example.school.service;
 
 import com.example.school.entity.Subject;
 import com.example.school.repository.SubjectRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class SubjectService {
     public Subject addNewSubject(Subject subject) {
         return subjectRepository.save(subject);
     }
-
+    @Transactional
     public Subject updateSubject(Subject subject){
         Subject sub = subjectRepository.findById(subject.getSubjectId()).orElseThrow(() ->new IllegalStateException(
                 "subject with id" + subject.getSubjectId() + "does not exists"
