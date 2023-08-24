@@ -2,9 +2,11 @@ package com.example.school.service;
 
 import com.example.school.entity.Student;
 import com.example.school.entity.Subject;
+import com.example.school.entity.Teacher;
 import com.example.school.repository.StudentRepository;
 import com.example.school.repository.SubjectRepository;
 import com.example.school.repository.TeacherRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +43,24 @@ public class TeacherService {
             throw new Exception("The president is not responsible of this student");
         }
 
+    }
+
+    public Optional<Teacher> getTeacherInfo(int teacherId) {
+        return teacherRepository.findById(teacherId);
+    }
+    public Teacher addNewTeacher(Teacher teacher){
+        return teacherRepository.save(teacher);
+    }
+    @Transactional
+    public Optional<Student> editStudentIno(int teacherId, int studentId, String studentName) {
+        Optional<Student> student = studentRepository.findById(studentId);
+        Set<Student> teacherStudents = teacherRepository.findById(teacherId).get().getSubject().getStudentSet();
+        for (Student std : teacherStudents) {
+            if (std == student.get()) {
+                student.get().setStudentName(studentName);
+                return student;
+            }
+        }
+        return student;
     }
 }

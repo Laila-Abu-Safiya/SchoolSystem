@@ -21,7 +21,7 @@ public class President {
     @Column(name = "SCHOOL_NAME")
     private String schoolName;
 
-    @OneToMany(mappedBy="president")
+    @OneToMany(mappedBy="president", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Teacher> teacherSet;
 

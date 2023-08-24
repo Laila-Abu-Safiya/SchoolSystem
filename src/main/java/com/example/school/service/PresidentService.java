@@ -6,10 +6,12 @@ import com.example.school.entity.Teacher;
 import com.example.school.repository.PresidentRepository;
 import com.example.school.repository.StudentRepository;
 import com.example.school.repository.TeacherRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -66,4 +68,68 @@ public class PresidentService {
         return List.of(presidentRepository.findAllSubject(presidentId));
     }
 
+    public boolean checkIfPresidentExists (int presidentId){
+        boolean exists = presidentRepository.existsById(presidentId);
+        if (exists) {
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public Student editStudentInfo(Student student){
+        Student std= studentRepository.findById(student.getStudentId()).orElseThrow(() -> new IllegalStateException(
+                "student with id " + student.getStudentId() + " does not exists"
+        ));
+        if(!Objects.equals(student.getStudentName(),std.getStudentName())){
+            std.setStudentName(student.getStudentName());
+        }
+        return std;
+    }
+
+    @Transactional
+    public Teacher editTeacherInfo(Teacher teacher){
+        Teacher teach= teacherRepository.findById(teacher.getTeacherId()).orElseThrow(() -> new IllegalStateException(
+                "teacher with id " + teacher.getTeacherId() + " does not exists"
+        ));
+        if(!Objects.equals(teach.getTeacherName(),teacher.getTeacherName())){
+            teach.setTeacherName(teacher.getTeacherName());
+        }
+        return teach;
+    }
+
+    public void deleteStudent(int presidentId, int studentId) throws Exception {
+        Set<Student> studentSet = presidentRepository.findById(presidentId).get().getStudentSet();
+        Student student = studentRepository.findById(studentId).orElseThrow(() -> new IllegalStateException(
+                "student with id " + studentId + " does not exists"
+        ));
+        boolean flag = false;
+        for (Student std : studentSet){
+            if(std == student){
+                flag = true;
+            }
+        }
+        if(flag) {
+            studentRepository.deleteById(studentId);
+        } else {
+            throw new Exception("The president is not responsible of this student");
+        }
+    }
+    public void deleteTeacher(int presidentId, int teacherId) throws Exception {
+        Set<Teacher> teacherSet = presidentRepository.findById(presidentId).get().getTeacherSet();
+        Teacher teacher = teacherRepository.findById(teacherId).orElseThrow(() -> new IllegalStateException(
+                "teacher with id " + teacherId + " does not exists"
+        ));
+        boolean flag = false;
+        for (Teacher teach : teacherSet){
+            if(teach == teacher){
+                flag = true;
+            }
+        }
+        if(flag) {
+            teacherRepository.deleteById(teacherId);
+        } else {
+            throw new Exception("The president is not responsible of this teacher");
+        }
+    }
 }
