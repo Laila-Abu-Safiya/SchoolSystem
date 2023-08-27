@@ -5,6 +5,7 @@ import com.example.school.entity.Subject;
 import com.example.school.entity.Teacher;
 import com.example.school.repository.PresidentRepository;
 import com.example.school.repository.StudentRepository;
+import com.example.school.repository.SubjectRepository;
 import com.example.school.repository.TeacherRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ public class PresidentService {
     private TeacherRepository teacherRepository;
     @Autowired
     private StudentRepository studentRepository;
+    @Autowired
+    private SubjectRepository subjectRepository;
     public Set<Teacher> listAllTeachers(int presidentId){
         return presidentRepository.findById(presidentId).get().getTeacherSet();
     }
@@ -132,4 +135,26 @@ public class PresidentService {
             throw new Exception("The president is not responsible of this teacher");
         }
     }
+    public Student addNewStudent(Student student){
+        return  studentRepository.save(student);
+    }
+    public Teacher addNewTeacher(Teacher teacher){
+        return teacherRepository.save(teacher);
+    }
+    @Transactional
+    public Subject updateSubject(Subject subject){
+        Subject sub = subjectRepository.findById(subject.getSubjectId()).orElseThrow(() ->new IllegalStateException(
+                "subject with id" + subject.getSubjectId() + "does not exists"
+        ));
+        sub.setSubjectName(subject.getSubjectName());
+        System.out.println(sub.getSubjectName());
+        return sub;
+    }
+
+    public void deleteSubject(int subjectId) {
+        subjectRepository.deleteById(subjectId);
+    }
+     public Subject addNewSubject (Subject subject){
+        return subjectRepository.save(subject);
+     }
 }

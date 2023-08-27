@@ -48,9 +48,6 @@ public class TeacherService {
     public Optional<Teacher> getTeacherInfo(int teacherId) {
         return teacherRepository.findById(teacherId);
     }
-    public Teacher addNewTeacher(Teacher teacher){
-        return teacherRepository.save(teacher);
-    }
     @Transactional
     public Optional<Student> editStudentIno(int teacherId, int studentId, String studentName) {
         Optional<Student> student = studentRepository.findById(studentId);

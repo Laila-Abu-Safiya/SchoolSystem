@@ -28,4 +28,8 @@ public class President {
     @OneToMany(mappedBy="studentPresident")
     @JsonIgnore
     private Set<Student> studentSet;
+
+    @OneToMany(mappedBy = "classPresident")
+    @JsonIgnore
+    private Set<Class> classSet;
 }

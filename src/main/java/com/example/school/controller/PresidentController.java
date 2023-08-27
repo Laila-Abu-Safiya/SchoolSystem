@@ -80,7 +80,39 @@ public class PresidentController {
         checkIfPresidentExists(exists);
         presidentService.deleteTeacher(presidentId, teacherId);
     }
+    @PostMapping(path = "school/president/{presidentId}/student/{studentId}")
+    public Student addNewStudent(@RequestBody Student student, @PathVariable("presidentId") int presidentId) throws ValidateForPresident {
+        boolean exists = presidentService.checkIfPresidentExists(presidentId);
+        checkIfPresidentExists(exists);
+        return presidentService.addNewStudent(student);
+    }
+    @PostMapping(path = "school/president/{presidentId}/teacher") ///there is a problem its not add a forgin key directly
+    public Teacher addNewTeacher(@RequestBody Teacher teacher, @PathVariable("presidentId") int presidentId) throws Exception {
+        boolean exists = presidentService.checkIfPresidentExists(presidentId);
+        checkIfPresidentExists(exists);
+        return presidentService.addNewTeacher(teacher);
+    }
+    @PostMapping(path = "school/president/{presidentId}/subject")
+    public Subject addNewTeacher(@RequestBody Subject subject, @PathVariable("presidentId") int presidentId) throws Exception {
+        boolean exists = presidentService.checkIfPresidentExists(presidentId);
+        checkIfPresidentExists(exists);
+        return presidentService.addNewSubject(subject);
 
+    }
+
+    @PutMapping(path = "school/president/{presidentId}/subject/{subjectId}")
+    public Subject updateSubjectInfo (@PathVariable("presidentId") int presidentId, @RequestBody Subject subject) throws ValidateForPresident {
+        boolean exists = presidentService.checkIfPresidentExists(presidentId);
+        checkIfPresidentExists(exists);
+        return presidentService.updateSubject(subject);
+    }
+
+    @DeleteMapping(path = "school/president/{presidentId}/subject/{subjectId}")
+    public void deleteSubjectById (@PathVariable("presidentId") int presidentId, @PathVariable("subjectId") int subjectId) throws ValidateForPresident {
+        boolean exists = presidentService.checkIfPresidentExists(presidentId);
+        checkIfPresidentExists(exists);
+        presidentService.deleteSubject(subjectId);
+    }
     public void checkIfPresidentExists(boolean exists) throws ValidateForPresident {
         if(!exists){
             throw new ValidateForPresident("President is not exists");

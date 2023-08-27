@@ -35,4 +35,9 @@ public class Student {
     @JoinColumn(name="president_id", nullable=false)
     private President studentPresident;
 
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name="class_id")
+    private Class students;
+
 }

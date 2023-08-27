@@ -27,27 +27,7 @@ public class SubjectController {
         return subjectService.listAllSubject();
     }
 
-    @PostMapping(path = "school/president/{presidentId}/subject")
-    public Subject addNewTeacher(@RequestBody Subject subject, @PathVariable("presidentId") int presidentId) throws Exception {
-        boolean exists = presidentService.checkIfPresidentExists(presidentId);
-        checkIfPresidentExists(exists);
-        return subjectService.addNewSubject(subject);
 
-    }
-
-    @PutMapping(path = "school/president/{presidentId}/subject/{subjectId}")
-    public Subject updateSubjectInfo (@PathVariable("presidentId") int presidentId, @RequestBody Subject subject) throws ValidateForPresident {
-        boolean exists = presidentService.checkIfPresidentExists(presidentId);
-        checkIfPresidentExists(exists);
-        return subjectService.updateSubject(subject);
-    }
-
-    @DeleteMapping(path = "school/president/{presidentId}/subject/{subjectId}")
-    public void deleteSubjectById (@PathVariable("presidentId") int presidentId, @PathVariable("subjectId") int subjectId) throws ValidateForPresident {
-        boolean exists = presidentService.checkIfPresidentExists(presidentId);
-        checkIfPresidentExists(exists);
-        subjectService.deleteSubject(subjectId);
-    }
 
     public void checkIfPresidentExists(boolean exists) throws ValidateForPresident {
         if(!exists){

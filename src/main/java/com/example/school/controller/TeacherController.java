@@ -32,7 +32,7 @@ public class TeacherController {
     public Set<Student> getAllStudentList(@PathVariable("teacherId") int teacherId) {
         return teacherService.listAllStudents(teacherId);
     }
-    @GetMapping(path = "school/teacher/{teacherId}/students/{studentId}")
+    @GetMapping(path = "school/teacher/{teacherId}/student/{studentId}")
     public Optional<Student> getSpecificStudent(@PathVariable("teacherId") int teacherId, @PathVariable("studentId") int studentId) throws Exception {
         return teacherService.getSpecificStudent(teacherId, studentId);
     }
@@ -40,20 +40,9 @@ public class TeacherController {
     public Optional<Teacher> getTeacherInfo(@PathVariable("teacherId") int teacherId){
         return teacherService.getTeacherInfo(teacherId);
     }
-    @PostMapping(path = "school/president/{presidentId}/teacher") ///there is a problem its not add a forgin key directly
-    public Teacher addNewTeacher(@RequestBody Teacher teacher, @PathVariable("presidentId") int presidentId) throws Exception {
-        boolean exists = presidentService.checkIfPresidentExists(presidentId);
-        checkIfPresidentExists(exists);
-        return teacherService.addNewTeacher(teacher);
-    }
     @PutMapping(path = "school/teacher/{teacherId}/student/{studentId}")
     public Optional<Student> editStudentInfo(@PathVariable("teacherId") int teacherId, @PathVariable("studentId") int studentId, @RequestBody String name){
         return teacherService.editStudentIno(teacherId,studentId,name);
-    }
-    public void checkIfPresidentExists(boolean exists) throws ValidateForPresident {
-        if(!exists){
-            throw new ValidateForPresident("President is not exists");
-        }
     }
 }
 

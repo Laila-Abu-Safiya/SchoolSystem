@@ -14,7 +14,6 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 public class Subject {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SUBJECT_ID")

@@ -22,12 +22,10 @@ public class Teacher {
     private String teacherName;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JsonIgnore
     @JoinColumn(name = "subject_id", referencedColumnName = "SUBJECT_ID")
     private Subject subject;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name="president_id")
     private President president;
 
